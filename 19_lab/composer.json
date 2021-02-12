@@ -1,0 +1,7 @@
+{
+  "name": "lab19/lab19",
+  "description": "lab19",
+  "require": {
+    "imagine/imagine": "^1.2"
+  }
+}
