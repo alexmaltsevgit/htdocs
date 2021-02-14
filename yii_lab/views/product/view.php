@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Comment;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
@@ -13,18 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->product_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->product_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <h1><?= 'Товар ' . Html::encode($this->title) ?></h1>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -34,5 +25,35 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
         ],
     ]) ?>
+
+    <ul>
+
+        <?php Pjax::begin(); ?>
+
+        <?php
+        if (isset($_GET['p'])) {
+            $p = $_GET['p'] + 10;
+        } else {
+            $p = 10;
+        } ?>
+
+        <?php foreach (Comment::findbysql("SELECT content, username from comment where product_id = '$model->product_id' limit $p")->all() as $comment) : ?>
+            <li>
+                <?php echo "Комментарий пользователя $comment->username:"; ?>
+                <?= $comment->content ?>
+            </li>
+        <?php endforeach; ?>
+
+    </ul>
+
+    <div">
+        <?= Html::a("Написать комментарий", ['comment/create', 'id' => $_GET['id']], ['class' => 'btn btn-md btn-primary']) ?>
+    </div>
+
+    <div style="margin-top: 15px;">
+        <?= Html::a("Ещё", ['post/view', 'id' => $_GET['id'], 'p' => $p], ['class' => 'btn btn-md btn-primary']) ?>
+    </div>
+
+    <?php Pjax::end(); ?>
 
 </div>
