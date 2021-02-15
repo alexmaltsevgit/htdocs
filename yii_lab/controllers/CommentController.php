@@ -62,17 +62,18 @@ class CommentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($product_id)
     {
         $model = new Comment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->comment_id]);
+            return $this->redirect(['product/index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
-        ]);
+                'model' => $model,
+                'product_id' => $product_id,
+            ]);
     }
 
     /**
@@ -82,7 +83,7 @@ class CommentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $product_id)
     {
         $model = $this->findModel($id);
 
@@ -92,6 +93,7 @@ class CommentController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'product_id' => $product_id,
         ]);
     }
 

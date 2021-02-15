@@ -47,11 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </ul>
 
     <div">
-        <?= Html::a("Написать комментарий", ['comment/create', 'id' => $_GET['id']], ['class' => 'btn btn-md btn-primary']) ?>
+        <?= Html::a("Написать комментарий", ['comment/create', 'id' => $_GET['id'], 'product_id' => $_GET['id']], ['class' => 'btn btn-md btn-primary']) ?>
     </div>
 
     <div style="margin-top: 15px;">
-        <?= Html::a("Ещё", ['post/view', 'id' => $_GET['id'], 'p' => $p], ['class' => 'btn btn-md btn-primary']) ?>
+        <?= Html::a("Ещё", ['view', 'id' => $_GET['id'], 'p' => $p], ['class' => 'btn btn-md btn-primary']) ?>
     </div>
 
     <?php Pjax::end(); ?>
